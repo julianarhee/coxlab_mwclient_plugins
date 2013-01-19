@@ -8,8 +8,9 @@
 
 #import "RatBehaviorControlPanelController.h"
 
+#import "MWorksCore/Utilities.h" // new
 #import "MWorksCocoa/MWClientServerBase.h"
-//#import "MWorksCore/Client.h"
+#import "MWorksCore/Client.h"
 #import "MWorksCocoa/MWCocoaEvent.h"
 
 NSString *valuesTargetprobPlotIdentifier = @"ValuesTargetProbLinePlot";
@@ -18,7 +19,15 @@ NSString *valuesTargetprobPlotIdentifier = @"ValuesTargetProbLinePlot";
 
 @synthesize staircaseStates;
 
-@synthesize valuesTargetprob; // new
+@synthesize numberOfTargetprobTrials;
+@synthesize numberOfTrials;
+
+@synthesize valuesTargetprob;
+
+@synthesize numberOfTargetprobTrialsInSession;
+@synthesize numberOfTrialsInSession;
+
+@synthesize valuesTargetprobInSession;
 
 - (void)setupChart {
 	// Read chart attributes from plist file.
@@ -222,12 +231,21 @@ NSString *valuesTargetprobPlotIdentifier = @"ValuesTargetProbLinePlot";
     // NEW STUFF...? (until curly bracket end)
     TargetprobCodecCode = -1;
     
+    numberOfTargetprobTrials = 0;
+    numberOfTrials = 0;
+    
     valuesTargetprob = 0;
+    
+    numberOfTargetprobTrialsInSession = 0;
+    numberOfTrialsInSession = 0;
+    
+    valuesTargetprobInSession = 0;
     
     // flag for variable codec check (see _cacheCodes)
     VariableCheck = NO;
 	
 	[ValuesTargetprobField setDrawsBackground:NO];
+    
     valuesTargetprobHistory = [[NSMutableArray alloc] init];
     totalHistory = [[NSMutableArray alloc] init];
 	maxHistory = 100;
@@ -237,8 +255,51 @@ NSString *valuesTargetprobPlotIdentifier = @"ValuesTargetProbLinePlot";
 }
 
 //new stuff:
+
+- (void)setDelegate:(id)new_delegate {
+	if(![new_delegate respondsToSelector:@selector(registerEventCallbackWithReceiver:
+												   selector:
+												   callbackKey:
+                                                   onMainThread:)] ||
+	   ![new_delegate respondsToSelector:@selector(unregisterCallbacksWithKey:)] ||
+	   ![new_delegate respondsToSelector:@selector(registerEventCallbackWithReceiver:
+												   selector:
+												   callbackKey:
+												   forVariableCode:
+                                                   onMainThread:)] ||
+	   ![new_delegate respondsToSelector:@selector(codeForTag:)]) {
+		[NSException raise:NSInternalInconsistencyException
+					format:@"Delegate doesn't respond to required methods for MWRatBehaviorControlPanelController"];
+	}
+	
+	delegate = new_delegate;
+	[delegate registerEventCallbackWithReceiver:self
+                                       selector:@selector(receiveCodec:)
+                                    callbackKey:RAT_CONTROL_PANEL_CALLBACK_KEY
+                                forVariableCode:RESERVED_CODEC_CODE
+                                   onMainThread:YES];
+}
+
+// if a (for now) targetprob update (?) variable is received
+- (void)serviceTargetprobEvent:(MWCocoaEvent *)event {
+
+    self.numberOfTargetprobTrials += 1;
+    self.numberOfTargetprobTrialsInSession += 1;
+    self.numberOfTrials += 1;
+    self.numberOfTrialsInSession += 1;
+    
+    [ValuesTargetprobField setDrawsBackground:YES];
+//////    [PercentFailureField setDrawsBackground:NO];
+//////    [PercentIgnoredField setDrawsBackground:NO];
+//////    [PercentCorrectIgnoreField setDrawsBackground:NO];
+    
+    [self updatePercentages];
+}
+
 - (void) updatePercentages {
-    self.valuesTargetprob = (int)((double)numberOfTrials/(double)numberOfTrials*100);
+    self.valuesTargetprob = (int)((double)numberOfTargetprobTrials/(double)numberOfTrials*100);
+
+    self.valuesTargetprobInSession = (int)((double)numberOfTargetprobTrialsInSession/(double)numberOfTrialsInSession*100);
 
     [valuesTargetprobHistory addObject:[NSNumber numberWithDouble:valuesTargetprob]];
     [totalHistory addObject:[NSNumber numberWithInt:numberOfTrials]];
@@ -291,7 +352,10 @@ NSString *valuesTargetprobPlotIdentifier = @"ValuesTargetProbLinePlot";
 	//@synchronized(self){
     // reset button clears the past performance and start over the counting
     TargetprobCodecCode = -1;
-
+    
+    self.numberOfTargetprobTrials = 0;
+    self.numberOfTrials = 0;
+    
     self.valuesTargetprob = 0;
 
     VariableCheck = NO;
@@ -309,6 +373,40 @@ NSString *valuesTargetprobPlotIdentifier = @"ValuesTargetProbLinePlot";
 	//}
     
     
+}
+
+
+- (IBAction)resetPerformanceInSession:(id)sender {
+    
+	//@synchronized(self){
+    // reset button clears the past performance and start over the counting
+    TargetprobCodecCode = -1;
+
+    self.numberOfTargetprobTrials = 0;
+    self.numberOfTrials = 0;
+    
+    self.valuesTargetprob = 0;
+    
+    self.numberOfTargetprobTrialsInSession = 0;
+    self.numberOfTrialsInSession = 0;
+    
+    self.valuesTargetprobInSession = 0;
+    
+    VariableCheck = NO;
+    
+    [ValuesTargetprobField setDrawsBackground:NO];
+    
+    [valuesTargetprobHistory removeAllObjects];
+    [totalHistory removeAllObjects];
+    
+    [self updatePlot];
+    
+    // re-check the codec number (in case the variable names have changed)
+    //[self _cacheCodes];
+    
+	//}
+    
+	
 }
 
 /*******************************************************************
@@ -331,24 +429,24 @@ NSString *valuesTargetprobPlotIdentifier = @"ValuesTargetProbLinePlot";
 		mwarning(M_NETWORK_MESSAGE_DOMAIN, "Variable for targetprob: %s was not found.",[[TargetprobVariableField stringValue] cStringUsingEncoding:NSASCIIStringEncoding]);
 	} else {
 		[delegate registerEventCallbackWithReceiver:self
-                                           selector:@selector(serviceCorrectEvent:)
+                                           selector:@selector(serviceTargetprobEvent:)
                                         callbackKey:RAT_CONTROL_PANEL_CALLBACK_KEY
                                     forVariableCode:TargetprobCodecCode
                                        onMainThread:YES];
 	}
     
     // re-register for the codec
-	[delegate registerEventCallbackWithReceiver:self
-                                       selector:@selector(receiveCodec:)
-                                    callbackKey:RAT_CONTROL_PANEL_CALLBACK_KEY
-                                forVariableCode:RESERVED_CODEC_CODE
-                                   onMainThread:YES];
+        [delegate registerEventCallbackWithReceiver:self
+                                           selector:@selector(receiveCodec:)
+                                        callbackKey:RAT_CONTROL_PANEL_CALLBACK_KEY
+                                    forVariableCode:RESERVED_CODEC_CODE
+                                       onMainThread:YES];
     
 }
 
 
 // Plot data source methods
--(unsigned)numberOfDataClustersForPlot:(NRTPlot *)plot
+-(unsigned)numberOfDataClustersForPlot:(NRTPlot *)plot;
 {
 	int num = 0;
 	
@@ -418,6 +516,6 @@ NSString *valuesTargetprobPlotIdentifier = @"ValuesTargetProbLinePlot";
 //	[delegate setValue:[delegate valueForKeyPath:@"variables.minimal_reward_duration"]
 //			forKeyPath:@"variables.LickOutput3"];
 //}
-
+    
 
 @end

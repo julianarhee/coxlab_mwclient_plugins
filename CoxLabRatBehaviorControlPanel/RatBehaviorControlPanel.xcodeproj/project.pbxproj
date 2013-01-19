@@ -32,9 +32,10 @@
 		5C6C0EF30D61676F001787A8 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C6C0EF20D61676F001787A8 /* MWorksCore.framework */; };
 		5C7A9B210D63E72100C3EE80 /* RatBehaviorControlPanel.xml in Resources */ = {isa = PBXBuildFile; fileRef = 5C7A9B200D63E72100C3EE80 /* RatBehaviorControlPanel.xml */; };
 		5CAE9AF80DD358E5006C4E49 /* StaircaseStateValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CAE9AF70DD358E5006C4E49 /* StaircaseStateValueTransformer.m */; };
+		5CD7694F16A8BE7700D1C28B /* Narrative.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD7694E16A8BE7700D1C28B /* Narrative.framework */; };
+		5CD7695116A8D08C00D1C28B /* Narrative.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CD7694E16A8BE7700D1C28B /* Narrative.framework */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
-		B99ECF5D16A88219009CDC80 /* Narrative.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B99ECF5A16A881A8009CDC80 /* Narrative.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,19 @@
 			remoteInfo = RatBehaviorControlPanel;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		5CD7695016A8D07600D1C28B /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5CD7695116A8D08C00D1C28B /* Narrative.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -69,9 +83,9 @@
 		5C7A9B200D63E72100C3EE80 /* RatBehaviorControlPanel.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = RatBehaviorControlPanel.xml; sourceTree = "<group>"; };
 		5CAE9AF60DD358E5006C4E49 /* StaircaseStateValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaircaseStateValueTransformer.h; sourceTree = "<group>"; };
 		5CAE9AF70DD358E5006C4E49 /* StaircaseStateValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StaircaseStateValueTransformer.m; sourceTree = "<group>"; };
+		5CD7694E16A8BE7700D1C28B /* Narrative.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Narrative.framework; path = "/Library/Application Support/MWorks/Developer/Frameworks/Narrative.framework"; sourceTree = "<absolute>"; };
 		8D5B49B6048680CD000E48DA /* RatBehaviorControlPanel.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RatBehaviorControlPanel.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B99ECF5A16A881A8009CDC80 /* Narrative.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Narrative.framework; sourceTree = "<group>"; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -80,9 +94,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B99ECF5D16A88219009CDC80 /* Narrative.framework in Frameworks */,
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
 				5C6C0EF30D61676F001787A8 /* MWorksCore.framework in Frameworks */,
+				5CD7694F16A8BE7700D1C28B /* Narrative.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,7 +106,6 @@
 		089C166AFE841209C02AAC07 /* MonkeyWorksDebugger */ = {
 			isa = PBXGroup;
 			children = (
-				B99ECF5A16A881A8009CDC80 /* Narrative.framework */,
 				5C78E9D5115946BF00151A76 /* External Config */,
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				32C88E010371C26100C91783 /* Other Sources */,
@@ -137,6 +150,7 @@
 		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5CD7694E16A8BE7700D1C28B /* Narrative.framework */,
 				5C6C0EF20D61676F001787A8 /* MWorksCore.framework */,
 				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
 			);
@@ -208,6 +222,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "RatBehaviorControlPanel" */;
 			buildPhases = (
+				5CD7695016A8D07600D1C28B /* CopyFiles */,
 				8D5B49AF048680CD000E48DA /* Resources */,
 				8D5B49B1048680CD000E48DA /* Sources */,
 				8D5B49B3048680CD000E48DA /* Frameworks */,
@@ -319,6 +334,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					/Library/Frameworks,
 					"\"$(SRCROOT)\"",
+					"\"$(LOCAL_LIBRARY_DIR)/Application Support/MWorks/Developer/Frameworks\"",
 				);
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -331,8 +347,12 @@
 				GCC_PREFIX_HEADER = "";
 				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "/Library/Application\\ Support/NewClient/Plugins/";
+				INSTALL_PATH = "/Library/Application\\ Support/MWorks/Plugins/";
 				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Narrative,
+				);
 				PRODUCT_NAME = RatBehaviorControlPanel;
 				WRAPPER_EXTENSION = bundle;
 				ZERO_LINK = YES;
@@ -343,6 +363,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5C78E9E0115946F300151A76 /* Development.xcconfig */;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "$(MW_DEVELOPER_DIR)/Frameworks/**";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 			};
@@ -373,6 +394,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					/Library/Frameworks,
 					"\"$(SRCROOT)\"",
+					"\"$(LOCAL_LIBRARY_DIR)/Application Support/MWorks/Developer/Frameworks\"",
 				);
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -385,8 +407,12 @@
 				GCC_PREFIX_HEADER = "";
 				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "/Library/Application\\ Support/NewClient/Plugins/";
+				INSTALL_PATH = "/Library/Application\\ Support/MWorks/Plugins/";
 				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Narrative,
+				);
 				PRODUCT_NAME = RatBehaviorControlPanel;
 				WRAPPER_EXTENSION = bundle;
 				ZERO_LINK = YES;
