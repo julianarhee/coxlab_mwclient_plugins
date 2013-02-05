@@ -11,7 +11,7 @@
 #import "MWorksCore/Utilities.h" // new
 #import "MWorksCocoa/MWClientServerBase.h"
 #import "MWorksCore/Client.h"
-#import "MWorksCocoa/MWCocoaEvent.h"
+#import "MWorksCocoa/MWCocoaEvent.h"+
 
 NSString *valuesTargetprobPlotIdentifier = @"ValuesTargetProbLinePlot";
 
